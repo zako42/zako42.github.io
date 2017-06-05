@@ -1,0 +1,331 @@
+<!doctype html>
+<!--[if IE 9]>
+<html class="lt-ie10" lang="en"> <![endif]-->
+<html class="no-js" lang="en" data-useragent="Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home network nice hostnames with dnsmasq and docker</title>
+    <meta name="description" content="The Jekyll AsciiDoc Quickstart project is a leg-up in starting your own website hosted on GitHub with content based in AsciiDoc.">
+    <meta name="author" content="Lance Nakamoto">
+    <meta name="copyright" content="Maybe consider a Creative Commons license">
+    <link rel="stylesheet" href="../../../css/foundation.css">
+    <link rel="stylesheet" href="../../../css/font-awesome.css">
+    <link rel="stylesheet" href="../../../css/coderay.css">
+    <link rel="stylesheet" href="../../../css/asciidoctor.css">
+    <script src="../../../js/vendor/modernizr.js"></script>
+    <script src="../../../js/toc.js"></script>
+</head>
+<body>
+
+
+<!-- Nav Bar -->
+
+<nav class="top-bar" data-topbar>
+    <ul class="title-area">
+        <!-- Title Area -->
+        <li class="name">
+            <h1>
+                <a href="../../../">Jekyll AsciiDoc Quickstart</a>
+            </h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
+</nav>
+<!-- End Nav -->
+
+
+<!-- Main Page Content and Sidebar -->
+
+<div class="row">
+
+    <!-- Main Blog Content -->
+    <div class="large-9 columns" role="content">
+
+        <h1>Home network nice hostnames with dnsmasq and docker</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>It&#8217;s a new year, and I&#8217;ve decided to start cleaning up my home network a bit.
+I&#8217;ve been wanting to organize stuff for a while now, but never got around to it.
+One of the things I wanted to do was play with dnsmasq.
+I had heard that it could be used to easily set up hostnames for devices on a LAN,
+which would organize some of my local bookmarks and make things easier to remember, categorize, etc.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="the_old_way_hosts_file">The old way - hosts file</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dnsmasq can handle DNS and DHCP,
+but what I plan to use it for is creating nice hostnames for machines on the LAN.
+For example, I have a Synology NAS, with a static IP set to 192.168.0.x.
+Earlier, on my dev laptop, I added that to <em>/etc/hosts</em> with an entry like:</p>
+</div>
+<div class="paragraph">
+<p>192.168.0.x nas</p>
+</div>
+<div class="paragraph">
+<p>This enables me to hit the NAS using the name <em>nas</em> in my web browser or from the command line,
+if I need to ssh to it, or ping it, etc.</p>
+</div>
+<div class="paragraph">
+<p>If you have a bunch of machines at home running a development webserver, mediawiki, plex, or whatever,
+you can create 'real looking' hostnames for these as well.
+For example <em>wiki.home</em> or <em>plex.home</em> or something like that.</p>
+</div>
+<div class="paragraph">
+<p>This seems all well and good.
+However, I have other machines which connect to the NAS as well&#8201;&#8212;&#8201;my wife&#8217;s laptop,
+a non development laptop, etc.
+I could create host files in all these machines,
+making sure to use the same names (<em>nas</em>, <em>wiki.home</em>, etc) in all of them to avoid confusion,
+but this is not an optimal solution.
+It&#8217;s not DRY, so if I decided to change the static IP of the NAS,
+or decided to add a server or more static IPs,
+I&#8217;d have to update the host files in all these machines.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, me and my wife both have non-jailbroken iphones, and my wife has an ipad.
+I haven&#8217;t looked into it too much,
+but it sounded like it wasn&#8217;t straighforward to edit a hosts file in these devices.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dnsmasq">dnsmasq</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I&#8217;m not knowledgable in networking, so I looked for the easiest solution I could find.
+It sounded like dnsmasq could do the job well without too much fuss.
+Essentially, dnsmasq acts as a lightweight DNS server,
+with the benefit that it can take a hosts file and "propagate" it.
+It&#8217;s not really a hosts file, but it&#8217;s just as easily configured.
+Incidentally, you could probably do all of this with a 'real' DNS server,
+but when I looked into it a bit, and saw all this stuff regarding 'A' records and whatnot,
+I figured I&#8217;d keep it as easy as possible and use dnsmasq.
+Maybe in the future I&#8217;ll learn me some DNS, but for now, this serves its purpose.</p>
+</div>
+<div class="paragraph">
+<p>I planned to run dnsmasq on a small Ubuntu box which is always on and has a static IP.
+Earlier, on my router, I was using google&#8217;s dns (8.8.8.8 and 8.8.4.4).
+All devices pointed to the router as their DNS server.
+Using dnsmasq, conceptually, I&#8217;d point the router to the static IP of the machine running dnsmasq instead.
+The devices would still point to the router, but now the router would get its DNS handled by the dnsmasq box.
+The dnsmasq box forwards stuff it doesn&#8217;t know about to google&#8217;s dns.
+So the dnsmasq box would hand out my custom addresses,
+and it sounds like it performs some caching to boot,
+for performance purposes (haven&#8217;t tested this yet).</p>
+</div>
+<div class="paragraph">
+<p>Anyway, basically dnsmasq gets inserted between the router and the google dns servers.
+It handles the custom local hostnames I give it,
+and hands off outside addresses to the google dns servers,
+which are still used.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dockerized_dnsmasq">dockerized dnsmasq</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To make things more fun, I also decided to run dnsmasq in a docker container.
+I&#8217;ve been trying to play with docker to familiarize myself with it.
+The way I see it, the easiest way to play with docker is to install docker containers off dockerhub,
+configure and mess with them.
+This was a good opportunity to try things out since dnsmasq is something I was going to install anyway,
+and this way has the benefit of not cluttering the filesystem,
+installing extra dependencies, etc.
+There are readme files with most images which have instructions on how to install and run them,
+so this helps people like me who don&#8217;t know what they&#8217;re doing.
+And if I didn&#8217;t like it,
+I could blow away the container or just try another dnsmasq image off dockerhub.
+Whatever the case, there were several dnsmasq images available,
+and the one I chose to use was <code>storytel/dnsmasq</code>
+--primarily because there was an easy to follow tutorial written by the author
+[here](<a href="https://blog.csainty.com/2016/09/running-dnsmasq-in-docker.html" class="bare">https://blog.csainty.com/2016/09/running-dnsmasq-in-docker.html</a>).</p>
+</div>
+<div class="paragraph">
+<p>I ran almost everything in the tutorial verbatim, however there were some complications.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="obstacles">Obstacles</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>Obstacle 1</em>:
+First off, docker reported that port 53 was already in use on my linux box (which runs Ubuntu 14.04) and it stopped the container.
+Running
+<code>ps -aux | grep dns</code> or <code>netstat -nltp | grep -i listen</code>
+showed there was already a dnsmasq instance being run.
+It turns out Ubuntu 14.04 runs a handicapped dnsmasq by default.
+It runs a dnsmasq-base package, which is limited in certain ways.
+It can be configured to play nicely, but I opted for the easy approach by just turning it off.
+This is done by commenting it out in
+<em>/etc/NetworkManager/NetworkManager.conf</em>
+(comment out the line with <em>dns=dnsmasq</em>).</p>
+</div>
+<div class="paragraph">
+<p>See these references for some background details:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>[<a href="http://askubuntu.com/questions/191226/dnsmasq-failed-to-create-listening-socket-for-port-53-address-already-in-use" class="bare">http://askubuntu.com/questions/191226/dnsmasq-failed-to-create-listening-socket-for-port-53-address-already-in-use</a>](<a href="http://askubuntu.com/questions/191226/dnsmasq-failed-to-create-listening-socket-for-port-53-address-already-in-use" class="bare">http://askubuntu.com/questions/191226/dnsmasq-failed-to-create-listening-socket-for-port-53-address-already-in-use</a>)</p>
+</li>
+<li>
+<p>[<a href="https://ubuntuforums.org/showthread.php?t=2218655" class="bare">https://ubuntuforums.org/showthread.php?t=2218655</a>](<a href="https://ubuntuforums.org/showthread.php?t=2218655" class="bare">https://ubuntuforums.org/showthread.php?t=2218655</a>)</p>
+</li>
+<li>
+<p>[<a href="http://superuser.com/questions/681993/using-dnsmasq-with-networkmanager" class="bare">http://superuser.com/questions/681993/using-dnsmasq-with-networkmanager</a>](<a href="http://superuser.com/questions/681993/using-dnsmasq-with-networkmanager" class="bare">http://superuser.com/questions/681993/using-dnsmasq-with-networkmanager</a>)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><em>Obstacle 2</em>:
+If you follow the tutorial and run the container without first setting up the config files in
+<em>/etc/dnsmasq</em>,
+the container just quits.
+When you run
+<code>docker ps</code>,
+there&#8217;s nothing there.
+However if you run
+<code>docker ps -a</code>,
+you&#8217;ll see the container exited.
+This is just because docker containers normally run one thing and then exit happily with knowledge of a job well done.
+One of the lines in the config,
+<em>keep-in-foreground</em>
+will keep the process going, which keeps the container running.
+So adding the 0.base.conf file in the tutorial and then running the container will work as expected.
+I guess I was just impatient.</p>
+</div>
+<div class="paragraph">
+<p>After that, you just add addresses and IPs to your own config file(s) and dnsmasq will pick them up and propagate them.
+If you edit the files, you will need to restart the docker container.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s how I configured things:</p>
+</div>
+<div class="paragraph">
+<p>in <em>/etc/dnsmasq/1.home.conf:</em></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>address=/nas.home/192.168.0.254
+address=/another-machine.home/192.168.0.253
+... (add more local hostnames here)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>One thing I also added was:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>docker update --restart=always dnsmasq</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This just sets the container to restart, so when I restart the machine,
+it also restarts the dnsmasq container.
+If not, when that machine restarts for whatever reason like updates or what have you,
+my home network will be brought to its knees because there will be no dns for anyone.</p>
+</div>
+<div class="paragraph">
+<p><em>Obstacle 3</em>:
+I initially used a made up domain called
+<em>.local</em>
+[This caused problems because of avahi](<a href="http://superuser.com/questions/704785/ping-cant-resolve-hostname-but-nslookup-can" class="bare">http://superuser.com/questions/704785/ping-cant-resolve-hostname-but-nslookup-can</a>).
+Apparently the avahi daemon is already set to use
+<em>.local</em>
+by default and it was conflicting with my addresses.
+I was getting problems where I could
+<code>nslookup test.local</code>,
+and I could
+<code>dig @localhost test.local</code>,
+and these would resolve ok.
+However when I tried to
+<code>ping test.local</code>
+or visit it in a web browser, it didn&#8217;t work.
+I chose
+<em>.local</em>
+just out of sheer coincidence, so instead of editing the avahi config,
+I simply changed my addresses to use
+<em>.home</em>
+instead, and this fixed the problem.
+While searching for answers, I saw other posts regarding problems with <em>.dev</em> too.
+I TLDR&#8217;ed all that though and just avoided using <em>.dev</em> as well.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="conclusion">Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After all this,
+I can now hit my NAS and other custom local hostnames from all the devices on my home network
+(including iphones and ipad, and other devices which I wouldn&#8217;t normally be able to edit host files in).
+Not sure how much this will help me,
+but it is definitely nicer to be able to bookmark urls with names like wiki.home instead of
+192.168.0.xyz.</p>
+</div>
+<div class="paragraph">
+<p>Later, I plan to set up openVPN so I can VPN to my home network from my phone or remote laptops, etc.
+Having these nice hostnames will make that a bit nicer as well.
+There&#8217;s probably going to be complications getting the DNS from the home network while being VPN&#8217;ed,
+but I&#8217;ll have to look at that when I get there.</p>
+</div>
+</div>
+</div>
+
+    </div>
+
+    <!-- End Main Content -->
+
+    <!-- Sidebar -->
+
+    <aside class="large-3 columns">
+
+        <h4>Posts</h4>
+        <ul id="posts" class="posts nav">
+            
+            <li><a href="./2017/06/02/blog-resurrection.html">Blog resurrection</a></li>
+            
+            <li><a href="./2017/01/04/dnsmasq-docker.html">dnsmasq and docker</a></li>
+            
+        </ul>
+    </aside>
+
+    <!-- End Sidebar -->
+</div>
+
+<!-- End Main Content and Sidebar -->
+
+
+<!-- Footer -->
+
+<footer class="row">
+    <div class="large-12 columns">
+        <hr>
+        <div class="row">
+            <div class="large-12 columns">
+                <h2 class="footer-heading">Jekyll AsciiDoc Quickstart</h2>
+                <p>Footer Test</p>
+                <p>Email:
+                  <a href="mailto:"></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="../../../js/vendor/jquery.js"></script>
+<script src="../../../js/foundation.min.js"></script>
+<script>
+$(document).foundation();
+var doc = document.documentElement;
+doc.setAttribute('data-useragent', navigator.userAgent);
+</script>
+</body>
+</html>
