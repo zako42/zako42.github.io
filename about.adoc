@@ -1,0 +1,17 @@
+= About
+:showtitle:
+:page-navtitle: dnsmasq and docker
+:page-excerpt: Installing dnsmasq with docker
+:page-root: ../../../
+
+Started off as a game programmer (my dream job) right out of school,
+but got disillusioned after a few years and ended up getting out of the industry.
+After over a decade of soul crushing project management and non-technical work,
+I finally got back to programming, with the realization that this is what I want to do.
+(Even if it means working on business web apps).
+Picking up after 10+ years of hiatus, there was a lot to catch up on.
+It was and still is a lot to learn.
+
+I'm keeping this blog to record things I learn along the way.  Not only programming and computers,
+but anything which interests or excites me.
+
