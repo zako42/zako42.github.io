@@ -2,6 +2,7 @@
 :showtitle:
 :page-title: Pseudo Random
 :page-description: Github pages blog
+:page-layout: index
 
 This is my personal blog of programming, tech, and any shinies that I get distracted with.
 

@@ -3,6 +3,7 @@
 :page-navtitle: Blog resurrection
 :page-excerpt: Asciidoc, Jekyll and blog resurrection
 :page-root: ../../../
+:page-layout: post
 
 I decided to resurrect my blog after I found out about the Jekyll Asciidoc Quickstart project.
 The project gets you set up to where you can use asciidoc to write posts using Jekyll and publish on Github Pages.

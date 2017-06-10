@@ -3,6 +3,7 @@
 :page-navtitle: dnsmasq and docker
 :page-excerpt: Installing dnsmasq with docker
 :page-root: ../../../
+:page-layout: post
 
 It's a new year, and I've decided to start cleaning up my home network a bit.
 I've been wanting to organize stuff for a while now, but never got around to it.
