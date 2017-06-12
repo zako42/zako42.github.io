@@ -1,0 +1,78 @@
+= Readability vs. Conciseness
+:showtitle:
+:page-navtitle: Readability vs. Conciseness
+:page-excerpt: Conciseness at the cost of readability
+:page-root: ../../../
+:page-layout: post
+
+I recently started going through the exercism.io ruby exercises.
+The second exercise involves doing an element-wise diff between strings,
+which represent nucleotides (made up of A,G,T,C).
+I initially made a naive stab at it using each_with_index,
+but it was a bit messy --
+I had to keep a local variable to increment the count of diffs:
+
+[source, ruby]
+----
+def self.compute(nucleotide1, nucleotide2)
+  total_diff = 0
+  nucleotide1.chars.each_with_index do |char, index|
+    total_diff += 1 if char != nucleotide2.chars[index]
+  end
+  total_diff
+end
+----
+
+Then I found Array::zip.
+This method takes two arrays and "zips" them together (think of a zipper).
+The return value is an array where each element is an array of values with the same index.
+
+[source, ruby]
+----
+[1,2,3,4].zip([5,6,7,8])  # returns [ [1,5], [2,6], [3,7], [4,8] ]
+----
+
+Using this, you can map the results with a comparison to get the output needed.
+When applying this to the method above, it becomes:
+
+[source, ruby]
+----
+def self.compute(nucleotide1, nucleotide2)
+  nucleotide1.chars.zip(nucleotide2.chars).map{|a,b| a != b ? 1 : 0}.reduce(:+) || 0
+end
+----
+
+This brings me to the problem of _readability vs. conciseness_.
+Both implementations return the same values (tests all pass for both).
+I'd argue the first is easier to grasp,
+but it's longer and uses a local variable so it doesn't seem as clean.
+Sometimes we get caught up in refactoring,
+trying to remove lines of code, stripping away as much as possible.
+I know at work we've ended up with methods like the second one above when we've refactored overzealously.
+But is it better to have a convoluted one line method, or a method which is easily readable?
+Generally speaking, I like to keep things simple, so I prefer the first.
+It does irritate me a bit that it's not as clean,
+but if I had to come back to it later,
+I think I'd grasp what's going on much faster.
+Maybe this will change if I get more accustomed to the zip method,
+and map/reduce type of operations.
+But for now in my current level, the first seems more straightforward.
+
+I'm going to submit the first method and see what kinds of solutions others have come up with and
+what kinds of comments there are.
+
+*Edit:*
+ok after the post was written,
+it was suggested in the exercise comments that I look at Ennumerable.
+I had only looked at the Array methods, so I looked at Enumerable and found the method count.
+This makes it much more readable:
+
+[source, ruby]
+----
+nucleotide1.chars.zip(nucleotide2.chars).count{|n1_val, n2_val| n1_val != n2_val}
+----
+
+I think this is best of both worlds.
+Exercism is a great site for learning.
+Thanks to the people who contribute there!
+

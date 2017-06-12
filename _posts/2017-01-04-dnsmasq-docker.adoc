@@ -16,22 +16,25 @@ which would organize some of my local bookmarks and make things easier to rememb
 Dnsmasq can handle DNS and DHCP,
 but what I plan to use it for is creating nice hostnames for machines on the LAN.
 For example, I have a Synology NAS, with a static IP set to 192.168.0.x.
-Earlier, on my dev laptop, I added that to __/etc/hosts__ with an entry like:
+Earlier, on my dev laptop, I added that to `/etc/hosts` with an entry like:
 
+[source, bash]
+----
 192.168.0.x nas
+----
 
-This enables me to hit the NAS using the name _nas_ in my web browser or from the command line,
+This enables me to hit the NAS using the name `nas` in my web browser or from the command line,
 if I need to ssh to it, or ping it, etc.
 
 If you have a bunch of machines at home running a development webserver, mediawiki, plex, or whatever,
 you can create 'real looking' hostnames for these as well.
-For example _wiki.home_ or _plex.home_ or something like that.
+For example `wiki.home` or `plex.home` or something like that.
 
 This seems all well and good.
 However, I have other machines which connect to the NAS as well -- my wife's laptop,
 a non development laptop, etc.
 I could create host files in all these machines,
-making sure to use the same names (_nas_, _wiki.home_, etc) in all of them to avoid confusion,
+making sure to use the same names (`nas`, `wiki.home`, etc) in all of them to avoid confusion,
 but this is not an optimal solution.
 It's not DRY, so if I decided to change the static IP of the NAS,
 or decided to add a server or more static IPs,
@@ -54,7 +57,7 @@ I figured I'd keep it as easy as possible and use dnsmasq.
 Maybe in the future I'll learn me some DNS, but for now, this serves its purpose.
 
 I planned to run dnsmasq on a small Ubuntu box which is always on and has a static IP.
-Earlier, on my router, I was using google's dns (8.8.8.8 and 8.8.4.4).
+Earlier, on my router, I was using google's dns (`8.8.8.8` and `8.8.4.4`).
 All devices pointed to the router as their DNS server.
 Using dnsmasq, conceptually, I'd point the router to the static IP of the machine running dnsmasq instead.
 The devices would still point to the router, but now the router would get its DNS handled by the dnsmasq box.
@@ -84,13 +87,14 @@ I could blow away the container or just try another dnsmasq image off dockerhub.
 Whatever the case, there were several dnsmasq images available,
 and the one I chose to use was `storytel/dnsmasq` 
 --primarily because there was an easy to follow tutorial written by the author 
-[here](https://blog.csainty.com/2016/09/running-dnsmasq-in-docker.html).
+https://blog.csainty.com/2016/09/running-dnsmasq-in-docker.html[here].
 
 I ran almost everything in the tutorial verbatim, however there were some complications.
 
 == Obstacles
 
-__Obstacle 1__:
+Obstacle 1
+
 First off, docker reported that port 53 was already in use on my linux box (which runs Ubuntu 14.04) and it stopped the container.
 Running 
 `ps -aux | grep dns` or `netstat -nltp | grep -i listen`
@@ -100,17 +104,18 @@ It runs a dnsmasq-base package, which is limited in certain ways.
 It can be configured to play nicely, but I opted for the easy approach by just turning it off.
 This is done by commenting it out in 
 __/etc/NetworkManager/NetworkManager.conf__ 
-(comment out the line with _dns=dnsmasq_).
+(comment out the line with `dns=dnsmasq`).
 
 See these references for some background details:
 
-1. [http://askubuntu.com/questions/191226/dnsmasq-failed-to-create-listening-socket-for-port-53-address-already-in-use](http://askubuntu.com/questions/191226/dnsmasq-failed-to-create-listening-socket-for-port-53-address-already-in-use)
+* http://askubuntu.com/questions/191226/dnsmasq-failed-to-create-listening-socket-for-port-53-address-already-in-use
 
-2. [https://ubuntuforums.org/showthread.php?t=2218655](https://ubuntuforums.org/showthread.php?t=2218655)
+* https://ubuntuforums.org/showthread.php?t=2218655
 
-3. [http://superuser.com/questions/681993/using-dnsmasq-with-networkmanager](http://superuser.com/questions/681993/using-dnsmasq-with-networkmanager)
+* http://superuser.com/questions/681993/using-dnsmasq-with-networkmanager
 
-__Obstacle 2__:
+Obstacle 2
+
 If you follow the tutorial and run the container without first setting up the config files in
 __/etc/dnsmasq__,
 the container just quits.
@@ -122,7 +127,7 @@ However if you run
 you'll see the container exited.
 This is just because docker containers normally run one thing and then exit happily with knowledge of a job well done.
 One of the lines in the config,
-_keep-in-foreground_
+`keep-in-foreground`
 will keep the process going, which keeps the container running.
 So adding the 0.base.conf file in the tutorial and then running the container will work as expected.
 I guess I was just impatient.
@@ -141,19 +146,20 @@ in __/etc/dnsmasq/1.home.conf:__
 
 One thing I also added was:
 
-    docker update --restart=always dnsmasq
+`docker update --restart=always dnsmasq`
 
 This just sets the container to restart, so when I restart the machine,
 it also restarts the dnsmasq container.
 If not, when that machine restarts for whatever reason like updates or what have you,
 my home network will be brought to its knees because there will be no dns for anyone.
 
-__Obstacle 3__:
+Obstacle 3
+
 I initially used a made up domain called 
-_.local_ 
-[This caused problems because of avahi](http://superuser.com/questions/704785/ping-cant-resolve-hostname-but-nslookup-can).
+`.local` 
+http://superuser.com/questions/704785/ping-cant-resolve-hostname-but-nslookup-can[This caused problems because of avahi].
 Apparently the avahi daemon is already set to use
-_.local_
+`.local`
 by default and it was conflicting with my addresses.
 I was getting problems where I could
 `nslookup test.local`,
@@ -164,13 +170,13 @@ However when I tried to
 `ping test.local`
 or visit it in a web browser, it didn't work.
 I chose
-_.local_
+`.local`
 just out of sheer coincidence, so instead of editing the avahi config,
 I simply changed my addresses to use
-_.home_
+`.home`
 instead, and this fixed the problem.
-While searching for answers, I saw other posts regarding problems with _.dev_ too.
-I TLDR'ed all that though and just avoided using _.dev_ as well.
+While searching for answers, I saw other posts regarding problems with `.dev` too.
+I TLDR'ed all that though and just avoided using `.dev` as well.
 
 == Conclusion
 
