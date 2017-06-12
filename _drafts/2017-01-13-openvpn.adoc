@@ -1,9 +1,10 @@
----
-layout: post
-title:  "Home network OpenVPN with docker"
-date:   2017-01-13
-categories: docker openvpn
----
+= Home network OpenVPN with docker
+:showtitle:
+:page-navtitle: dnsmasq and docker
+:page-excerpt: Installing dnsmasq with docker
+:page-root: ../../../
+:page-layout: post
+:page-categories: docker openvpn
 
 Somewhat recently, I purchased a security camera & DVR system for my home. It has the ability to view
 the camera feeds over the internet through a mobile app.
@@ -13,7 +14,7 @@ to be somewhat secure. I wasn't too keen on opening up and port forwarding 80 an
 Maybe it's a bit paranoid, but I figured those would be common ports that would get attacked, and
 who knows how patched a security camera DVR is.
 
-### OpenVPN
+== OpenVPN
 
 OpenVPN is a type of virtual private network (VPN). They create a secure "tunnel" for traffic between two
 points by encrypting it. VPNs can be used to connect a remote machine to a network, behaving
@@ -34,7 +35,7 @@ OpenVPN features, for example. My Synology NAS can also run L2TP, PPTP and OpenV
 support for L2TP. Looking into these common VPN types, I liked OpenVPN since it's open source, highly
 secure and highly configurable.
 
-### Configuration
+== Configuration
 
 Initially, I tried playing with OpenVPN that was built into my router. I was able to make this work
 but the built-in configuration was fairly insecure. There's not much I was able to do, since the router
@@ -97,7 +98,7 @@ Although these tests proved the VPN was working and I could get onto my home net
 nothing like a real test. When I went out for dinner, I opened up my OpenVPN client app and connected home.
 Everything went smoothly.
 
-### Conclusion
+== Conclusion
 
 Things turned out well. I'm able to view my security cameras on my phone, while out on the road. The
 connection is encrytped with OpenVPN, so I have slightly more peace of mind. I'm also able to access
