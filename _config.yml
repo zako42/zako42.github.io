@@ -1,5 +1,10 @@
 title: Pseudo Random
+email: zako42@gmail.com
 description: github pages blog
+url: "http://zako42.github.io"
+twitter_username: gomizako
+github_username: zako42
+baseurl: "/"
 exclude:
   - LICENSE.adoc
   - README.adoc
