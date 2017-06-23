@@ -1,0 +1,159 @@
+= mysqld configuration
+
+== Background
+
+...
+
+== System Variables
+
+System variables for MySQL can be seen with:
+
+.Example, Viewing system variables
+[source,sql]
+----
+mysql> SHOW VARIABLES\G
+
+*************************** 1. row ***************************
+Variable_name: auto_increment_increment
+Value: 1
+*************************** 2. row ***************************
+Variable_name: auto_increment_offset
+Value: 1
+*************************** 3. row ***************************
+Variable_name: autocommit
+Value: ON
+*************************** 4. row ***************************
+Variable_name: automatic_sp_privileges
+Value: ON
+*************************** 5. row ***************************
+Variable_name: avoid_temporal_upgrade
+Value: OFF
+*************************** 6. row ***************************
+Variable_name: back_log
+Value: 80
+*************************** 7. row ***************************
+Variable_name: basedir
+Value: /usr/
+*************************** 8. row ***************************
+Variable_name: big_tables
+Value: OFF
+*************************** 9. row ***************************
+Variable_name: bind_address
+Value: *
+*************************** 10. row ***************************
+Variable_name: binlog_cache_size
+Value: 32768
+.
+.
+.
+
+# to narrow it down to ssl variables
+SHOW VARIABLES LIKE "%ssl%";
+
++---------------+-----------------+
+| Variable_name | Value           |
++---------------+-----------------+
+| have_openssl  | YES             |
+| have_ssl      | YES             |
+| ssl_ca        | ca.pem          |
+| ssl_capath    |                 |
+| ssl_cert      | server-cert.pem |
+| ssl_cipher    |                 |
+| ssl_crl       |                 |
+| ssl_crlpath   |                 |
+| ssl_key       | server-key.pem  |
++---------------+-----------------+
+9 rows in set (0.00 sec)
+----
+
+
+There are a lot of variables in there, controlling everything from ssl to logging, to memory.
+This can drastically afffect performance, and can be intimidating.
+In MySQL 5.7.x on my dev machine, the result was 514 rows.
+If you are logged in with a user account which has the `SUPER` privilege, the values of many of
+these variables can be configured 'on the fly'.
+This is good for testing or doing something temporarily.
+For example, at work, we have stringent password requirements for accounts which connect via
+username/password.
+However we use PKI certificates for most accounts, which do not use passwords at all.
+When creating or altering a PKI account, the password requirements will not let the user be saved
+(which is what we normally want).
+To _temporarily_ turn off the password complexity validations, those variables can be turned off,
+thus bypassing the validations.
+When the PKI account is complete, the validations can be turned back on.
+
+=== my.cnf
+MySQL configuration is stored in the file `/etc/my.cnf`.
+This is what MySQL calls an 'option file', and is loaded when mysqld is started.
+Other option files can also be used, but I've only really had to touch my.cnf.
+The settings configured in my.cnf override the default values which mysqld was compiled with.
+
+To see the default values:
+
+.Example, Show default system variable values
+[source,bash]
+----
+$ mysqld --verbose --help
+
+# (displays mysqld usage information, then shows variable default values)
+.
+.
+.
+(--variable-name=value)
+and boolean options {FALSE|TRUE}                             Value (after reading options)
+------------------------------------------------------------ -------------
+abort-slave-event-count                                      0
+allow-suspicious-udfs                                        FALSE
+archive                                                      ON
+auto-increment-increment                                     1
+auto-increment-offset                                        1
+autocommit                                                   TRUE
+automatic-sp-privileges                                      TRUE
+avoid-temporal-upgrade                                       FALSE
+back-log                                                     80
+basedir                                                      /usr/
+big-tables                                                   FALSE
+bind-address                                                 *
+binlog-cache-size                                            32768
+.
+.
+.
+----
+
+Variables can be configured in `my.cnf` and can be set with different _option groups_
+as well.
+For example:
+
+.Example, Option groups in my.cnf
+[source,sql]
+----
+[client] # <1>
+port=3306
+socket=/tmp/mysql.sock
+
+[mysqld] # <2>
+port=3306
+socket=/tmp/mysql.sock
+key_buffer_size=16M
+max_allowed_packet=8M
+----
+<1> The MySQL client will be configured with only these settings
+<2> The MySQL server will be configured with only these settings
+
+Remember the situation above, where we temporarily turned off the password validations?
+To ensure that they are turned on every time mysqld is started, the validations should be set in
+the my.cnf file.
+This way if someone forgets to turn them back on, they will be enabled the next time the service
+is restarted.
+
+=== command line options
+Aside from the option files, settings can also be configured by command line arguments.
+These were displayed above, in the output from `mysqld --verbose --help`.
+
+=== Precedence of options
+When mysqld is started, it starts with the default settings it was compiled with.
+From there, the option files are loaded, which override the defaults.
+Command line options are last, and override the option files (and therefore the defaults).
+This is to maintain the greatest flexibility when running mysqld.
+
+
