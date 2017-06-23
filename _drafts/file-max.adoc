@@ -1,0 +1,48 @@
+= Apache Too many open files
+
+Apache ran into problems where the user was not able to connect to the site.
+In the ssl error log, there were errors complaining of "too many open files".
+Apparently, apache was opening a large amount of files due to a bunch of machine requests from
+an external application which we share data with.
+It looked like they were hitting an xml feed every couple of seconds,
+and as a result there were a lot of open sockets going between apache and thin (our application
+server).
+
+The apache user was set to have a limit of 1024 max open files.
+To fix the problem, we upped that to 16384 and are monitoring to see what happens.
+The team that manages the external application will be contacted to control themselves a bit.
+
+== What we found out about setting the max files
+There is a system wide setting and a user level setting which specifies various resources that
+processes are given when they startup.
+The system wide setting looks like it can be read at
+
+  /proc/sys/fs/file-max
+
+the value can be configured at
+
+  /etc/sysctl.conf
+
+  fs.file-max = 100000
+
+There is another file where individual users can be configured more granularly at
+
+  /etc/security/limits.conf
+
+Here, a user (or group) can set their max file limit by adding an entry
+
+  apache  soft  nofile  16384
+  apache  hard  nofile  32768
+
+`soft` and `hard` refer to soft and hard limits, and `nofile` represents number of files.
+
+To view your own limits (to view someone else, I guess you could use `su`)
+
+  ulimit -Hn
+  ulimit -Sn
+
+To view a running process, get its pid by using `ps aux | grep name-of-process`.
+With the pid, you can (as root) view the process limits
+
+  cat /proc/(pid)/limits
+
