@@ -1,0 +1,100 @@
+= Rubik's Cubing
+
+I purchased a rubiks cube _speed cube_ from Amazon for my brother and one of my friends for this
+past Christmas.
+Since they were cheap, I figured I'd buy one for myself as well.
+I'd seen people at work playing with them and discussing 'algorithms' for solving.
+This was always interesting to me, but I guess I never tried playing with one until I bought those
+cubes for Christmas.
+
+After they arrived, I found a few websites explaining the basic algorithm and slowly memorized it.
+It took a few weeks on and off playing with it for a few minutes a day, so it's not that bad at all
+(and if you dedicated more time to it it would take much less time than that).
+However, after my friend came over one day, that changed everything.
+
+He showed me that he had learned the basic algorithm as well, but found out about some shortcuts
+he saw on youtube.
+He was able to solve the cube much faster than me using those shortcuts.
+Now, at the time, I wasn't really aware of 'speed cubing', I just learned the basic algorithm and
+assumed that speed cubers were using the same steps, but just had muscle memory and lots of practice.
+
+After seeing him solve the cube so fast (in like 4 minutes, as opposed to my 5 minute times),
+I started googling.
+On youtube, there are tons of videos of people solving cubes in like 20 seconds.
+I found the Fridritch (CFOP) method, which had some similarities to the basic method, but had
+tons of smaller algorithms to handle different cases.
+I was scared off by the daunting amount of algorithms needed for one-look OLL and one-look PLL,
+so decided to start off with the Petrus method.
+
+== Other methods
+I thought this would be much better for me since it doesn't require as much algorithms, instead
+relying on a lot of block building and intuition.
+Unfortunately for me, I had no intuition at this point, and I had a hard time building blocks.
+I couldn't easily figure out how to maneuver pieces when limited to only turning specific faces.
+I tried this for a week or so, and eventually gave up.
+
+I tried the Roux method and then ZZ method next, still scared off from CFOP by the sheer number of 
+algorithms to memorize.
+Both of these still required intuition that I just didn't have, and I eventually gave up on these
+as well.
+
+== On to Fridritch
+Finally, I gave up on these other methods, and figured I'd just start memorizing algorithms.
+I figured if it got too hard, maybe I just wouldn't get into speed cubing.
+I started off with a 4-look OLL/PLL (2 look each).
+This is a minimal set of algorithms needed to be able to solve the cube, although it's not as
+efficient.
+I'm still at 4-look, trying to learn all the PLLs, but even then, I feel like I'm doing well
+(my average is about 60 seconds now, which is a lot better than 5 minutes!).
+In the end, for me, I think Fridritch is a good next step from the basic method, because it helps
+give you some structure.
+Additionally, each time you learn a new set of algorithms, you can handle different cases or do
+things more efficiently, so you feel like you're improving, even if your times don't get faster.
+
+=== Practice
+I would first start off with the 4-look OLL/PLL algorithms.
+At first keeping a printout with me, I eventually decided to keep a small pocket notebook, which
+I draw in and take notes with.
+I'll usually grab 2 or 3 algorithms to learn at a time.
+Any algorithms I'm trying to learn, I draw them in, and write notes in there:
+
+* Name (I make up pet names for the algorithms to remember them by)
+* Drawing of cube configuration for pattern recognition
+* Arrows showing where pieces will move
+* The algorithm itself
+  ** I write the algorithm grouped into smaller sets of movements to make it easier to memorize
+* Notes to myself
+
+NOTE: When choosing a few algorithms, it can make a difference which ones you choose!
+Some algorithms are the inverse of others.
+Try this out by performing an algorithm on a solved cube first to see how things move around.
+There may be a matching algorithm which reverses it.
+For example, there is a PLL which moves 3 edge pieces clockwise.
+There is another which moves 3 edges counter-clockwise.
+If you work on both of these together, you can start with a solved cube, perform one, and then
+do the inverse to get back to a solved cube.
+This way you learn 2 algorithms simultaneously, and you can get some pattern recognition in.
+I call these 'Katas'.
+
+I try to practice for a few minutes each day.
+Usually at work I'll at least time myself 3 times during lunch.
+I could probably practice more, but I've been pretty busy lately.
+Regardless, I think practicing a few minutes per day is better than practicing for say an hour one
+day per week or 8 hours once a month, etc.
+
+TIP: I bought a GANS 356 Air cube, which is not as noisy as some other cubes.
+Since I use this at work and don't want to disturb others around me, this lets me practice at lunch
+without worrying about the noise as much.
+
+=== Other techniques
+When trying to shave seconds off my time, I realized I was taking too long on the white cross and
+F2L.
+Googling these, you can find advanced techniques specifically used to speed these up as well.
+
+For example, performing a relative white cross saves a lot of wasted movement.
+
+Trying to speed up F2L is what ultimately started teaching me intuition.
+I think learning how to move pieces around without messing up others is what did it.
+I could probably try learning some of those other methods I tried earlier which use block building,
+etc but since I might just end up confusing myself, I plan to avoid those for now until I at least
+get to 1 look PLL.
