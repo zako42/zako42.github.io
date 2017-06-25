@@ -1,4 +1,10 @@
 = Rubik's Cubing
+:showtitle:
+:page-navtitle: Rubik's Cubing
+:page-excerpt: 
+:page-root: ../../../
+:page-layout: post
+:page-categories: rubiks-cube speed-cubing
 
 I purchased a rubiks cube _speed cube_ from Amazon for my brother and one of my friends for this
 past Christmas.

@@ -1,4 +1,10 @@
 = Logrotate and MySQL
+:showtitle:
+:page-navtitle: Logrotate and MySQL
+:page-excerpt: Conciseness at the cost of readability
+:page-root: ../../../
+:page-layout: post
+:page-categories: mysql logs logrotate
 
 == Log Rotation
 At work we use the community edition of MySQL 5.7.x. server (not the enterprise version).

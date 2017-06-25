@@ -1,2 +1,9 @@
 = Using SSL with MySQL
+:showtitle:
+:page-navtitle: Using SSL with MySQL
+:page-excerpt: 
+:page-root: ../../../
+:page-layout: post
+:page-categories: mysql ssl
 
+ssl info

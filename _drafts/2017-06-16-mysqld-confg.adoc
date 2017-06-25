@@ -1,4 +1,10 @@
-= mysqld configuration
+= mysqld Configuration
+:showtitle:
+:page-navtitle: MySQL Configuration
+:page-excerpt: 
+:page-root: ../../../
+:page-layout: post
+:page-categories: mysql configuration
 
 == Background
 We've recently been digging into MySQL a bit, to see what can be done for performance,

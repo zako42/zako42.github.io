@@ -4,7 +4,7 @@
 :page-excerpt: Asciidoc is awesome
 :page-root: ../../../
 :page-layout: post
-
+:page-categories: asciidoc
 
 == Cool features of asciidoc format
 

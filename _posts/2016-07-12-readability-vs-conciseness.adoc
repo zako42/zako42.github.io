@@ -4,6 +4,7 @@
 :page-excerpt: Conciseness at the cost of readability
 :page-root: ../../../
 :page-layout: post
+:page-categories: ruby best-practices
 
 I recently started going through the exercism.io ruby exercises.
 The second exercise involves doing an element-wise diff between strings,

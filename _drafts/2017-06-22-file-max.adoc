@@ -1,4 +1,10 @@
 = Apache Too many open files
+:showtitle:
+:page-navtitle: Apache too many open files
+:page-excerpt: There is a system wide setting and a user level setting which specifies various resources
+:page-root: ../../../
+:page-layout: post
+:page-categories: apache
 
 Apache ran into problems where the user was not able to connect to the site.
 In the ssl error log, there were errors complaining of "too many open files".
