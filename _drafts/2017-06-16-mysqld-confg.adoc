@@ -1,8 +1,9 @@
 = mysqld configuration
 
 == Background
-
-...
+We've recently been digging into MySQL a bit, to see what can be done for performance,
+as well as what kinds of things we can do to secure it.
+We use MySQL 5.7.x on RHEL6 / CentOS.
 
 == System Variables
 
@@ -11,7 +12,7 @@ System variables for MySQL can be seen with:
 .Example, Viewing system variables
 [source,sql]
 ----
-mysql> SHOW VARIABLES\G
+mysql> SHOW VARIABLES\G # <1>
 
 *************************** 1. row ***************************
 Variable_name: auto_increment_increment
@@ -48,7 +49,7 @@ Value: 32768
 .
 
 # to narrow it down to ssl variables
-SHOW VARIABLES LIKE "%ssl%";
+SHOW VARIABLES LIKE "%ssl%"; # <2>
 
 +---------------+-----------------+
 | Variable_name | Value           |
@@ -65,7 +66,9 @@ SHOW VARIABLES LIKE "%ssl%";
 +---------------+-----------------+
 9 rows in set (0.00 sec)
 ----
-
+<1> The `\G` (instead of semi-colon) just outputs the results 'vertically' instead of in a 
+table form
+<2> LIKE means case-insensitive, while the percents are wildcards
 
 There are a lot of variables in there, controlling everything from ssl to logging, to memory.
 This can drastically afffect performance, and can be intimidating.
@@ -73,11 +76,16 @@ In MySQL 5.7.x on my dev machine, the result was 514 rows.
 If you are logged in with a user account which has the `SUPER` privilege, the values of many of
 these variables can be configured 'on the fly'.
 This is good for testing or doing something temporarily.
+
 For example, at work, we have stringent password requirements for accounts which connect via
 username/password.
-However we use PKI certificates for most accounts, which do not use passwords at all.
-When creating or altering a PKI account, the password requirements will not let the user be saved
-(which is what we normally want).
+The password validation settings we have configured will not let the user be saved unless the user's
+password is complex enough (which is what we normally want).
+However we use PKI certificates for most accounts, and those accounts do not need passwords
+(we rely on the certificates read from smart cards with PIN).
+This is fine since we can authenticate via `REQUIRE X509` or `REQUIRE SUBJECT`, but since we don't
+want to specify a password for these accounts, a blank password does not meet the password
+validation requirements and new accounts cannot be saved.
 To _temporarily_ turn off the password complexity validations, those variables can be turned off,
 thus bypassing the validations.
 When the PKI account is complete, the validations can be turned back on.
@@ -120,8 +128,7 @@ binlog-cache-size                                            32768
 .
 ----
 
-Variables can be configured in `my.cnf` and can be set with different _option groups_
-as well.
+Variables can be configured in `my.cnf` and can be set with different _option groups_ as well.
 For example:
 
 .Example, Option groups in my.cnf
