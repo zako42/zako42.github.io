@@ -140,9 +140,8 @@ and the one I chose to use was <code>storytel/dnsmasq</code>
 <div class="sect1">
 <h2 id="obstacles">Obstacles</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Obstacle 1</p>
-</div>
+<div class="sect2">
+<h3 id="obstacle_1">Obstacle 1</h3>
 <div class="paragraph">
 <p>First off, docker reported that port 53 was already in use on my linux box (which runs Ubuntu 14.04) and it stopped the container.
 Running
@@ -171,9 +170,9 @@ This is done by commenting it out in
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>Obstacle 2</p>
 </div>
+<div class="sect2">
+<h3 id="obstacle_2">Obstacle 2</h3>
 <div class="paragraph">
 <p>If you follow the tutorial and run the container without first setting up the config files in
 <em>/etc/dnsmasq</em>,
@@ -220,9 +219,9 @@ it also restarts the dnsmasq container.
 If not, when that machine restarts for whatever reason like updates or what have you,
 my home network will be brought to its knees because there will be no dns for anyone.</p>
 </div>
-<div class="paragraph">
-<p>Obstacle 3</p>
 </div>
+<div class="sect2">
+<h3 id="obstacle_3">Obstacle 3</h3>
 <div class="paragraph">
 <p>I initially used a made up domain called
 <code>.local</code>
@@ -246,6 +245,7 @@ I simply changed my addresses to use
 instead, and this fixed the problem.
 While searching for answers, I saw other posts regarding problems with <code>.dev</code> too.
 I TLDR&#8217;ed all that though and just avoided using <code>.dev</code> as well.</p>
+</div>
 </div>
 </div>
 </div>
