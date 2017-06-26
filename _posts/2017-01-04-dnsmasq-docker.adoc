@@ -4,7 +4,7 @@
 :page-excerpt: Installing dnsmasq with docker
 :page-root: ../../../
 :page-layout: post
-:page-categories: docker dnsmasq
+:page-tags: dnsmasq docker
 
 It's a new year, and I've decided to start cleaning up my home network a bit.
 I've been wanting to organize stuff for a while now, but never got around to it.
@@ -94,7 +94,7 @@ I ran almost everything in the tutorial verbatim, however there were some compli
 
 == Obstacles
 
-Obstacle 1
+=== Obstacle 1
 
 First off, docker reported that port 53 was already in use on my linux box (which runs Ubuntu 14.04) and it stopped the container.
 Running 
@@ -115,7 +115,7 @@ See these references for some background details:
 
 * http://superuser.com/questions/681993/using-dnsmasq-with-networkmanager
 
-Obstacle 2
+=== Obstacle 2
 
 If you follow the tutorial and run the container without first setting up the config files in
 __/etc/dnsmasq__,
@@ -154,7 +154,7 @@ it also restarts the dnsmasq container.
 If not, when that machine restarts for whatever reason like updates or what have you,
 my home network will be brought to its knees because there will be no dns for anyone.
 
-Obstacle 3
+=== Obstacle 3
 
 I initially used a made up domain called 
 `.local` 

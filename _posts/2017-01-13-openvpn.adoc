@@ -1,10 +1,10 @@
 = Home network OpenVPN with docker
 :showtitle:
-:page-navtitle: dnsmasq and docker
-:page-excerpt: Installing dnsmasq with docker
+:page-navtitle: openvpn
+:page-excerpt: 
 :page-root: ../../../
 :page-layout: post
-:page-categories: docker openvpn
+:page-tags: openvpn vpn docker
 
 Somewhat recently, I purchased a security camera & DVR system for my home. It has the ability to view
 the camera feeds over the internet through a mobile app.
@@ -45,15 +45,18 @@ may add some extra protection, since attackers would need to break out of the co
 manage to exploit a vulnerability in the OpenVPN software.
 
 The docker image I used had instructions on how to run it, and I also found this tutorial:
+
 link
+
 I basically followed the instructions word for word and it went smoothly. The issues I ran into had
 nothing to do with the tutorial:
 
-* Issue 1
+=== Issue 1
 Needed dynamic DNS for my IP. This is so I could specify an address in the OpenVPN configuration (the
-IP I get from my ISP is dynamic and may change at any time). I didn't have any dynamic DNS earlier. I found duckdns and went with them over a list of others just because they're free and the name is funny.
+IP I get from my ISP is dynamic and may change at any time). I didn't have any dynamic DNS earlier.
+I found duckdns and went with them over a list of others just because they're free and the name is funny.
 
-* Issue 2
+=== Issue 2
 My ISP provided modem (DSL) was running as a router with firewall which was blocking the ports I was
 trying to open on my own router. To get around this, I looked up the documentation on logging into
 the modem and setting it up as a dumb modem (called 'bridged mode' on my particular model). Once this
@@ -62,16 +65,17 @@ was set, I was able to successfully hit my port forwarded machine with netcat
 nc -zvu my-registered-host.duckdns.org 1194
 (connected)
 
-* Issue 3
+=== Issue 3
 As far as security goes, I'm not knowledgeable. I looked around for information, and found a few
 guides on how to configure your router to be more secure, as well as Steve Gibson's page (link). Steve's
 page has some tools which can check how secure your router is. I ran everything there and felt a bit
 safer once those were all good.
 
-* Issue 4
+=== Issue 4
 To get the openvpn config file onto my iphone, I had to use iTunes to load the file onto the openvpn
 client app file area.
 
+== Testing
 Once these things were all configured, I was able to test things out.
 
 * Check IP
