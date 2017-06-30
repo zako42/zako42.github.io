@@ -6,23 +6,63 @@
 :page-layout: post
 :page-tags: asciidoc
 
-== Cool features of asciidoc format
+== Just a few features of asciidoc format
 
-* plain text, so we can use git, vim, other programming tools
-* superset of markdown, so we have backwards compatibility
-* auto table of contents
-* easy cross reference links, and section headings are all automatically linkable
+* Everything is plain text, so we can use git, vim, other programming tools
+* Superset of markdown, so we have backwards compatibility
+* Auto table of contents
+* Easy cross reference links, and section headings like <<Cool features of asciidoc format>> are all automatically linkable
 * documents can include other documents
-** can extract sections to DRY them up between documents
-** can adjust the indent level of sections within an included document. This means each document can stand on its own, as well as become a section in another.
-* easy tables support
-* include font awesome and all its icons
-* admonitions!
+** this means we can extract partials to DRY them up between documents
+** can adjust the indent level of sections within an included document.
+This means each document can stand on its own, as well as become a section in another.
+
+.Tables are easy too
+|===
+
+|Column 1 Name |Column 2 Name |Column 3 Name
+
+|data 1
+|data 2
+|data 3
+
+|row 2
+|some other stuff
+|more stuff
+
+|===
+
+* includes font awesome and all its icons icon:hand-spock-o[]
+* if you want to style something monospace for code or commands inline, you can do so `like this`
+* or you can enter a block of stuff
+
+ like
+ this
+
 * block quote formatting is nice
-* support for math equations like Latex
-* support for text specified diagrams
 
-NOTE: this is a note
+[quote, me just a little while ago]
+block quote formatting is nice
 
-IMPORTANT: this is an important admonition
+* admonitions are awesome!
+
+NOTE: This is a note
+
+IMPORTANT: This is important
+
+* and of course, adding code blocks easily -- with callouts
+
+.Ruby example
+[source, ruby]
+----
+class Dog
+  attr_reader :name # <1>
+
+  def initialize(name)
+    @name = name # <2>
+  end
+end
+----
+<1> creates a getter method for the name instance variable
+<2> sets instance variable
 
