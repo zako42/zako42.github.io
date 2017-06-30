@@ -8,7 +8,7 @@
 
 At work we have a mechanism for creating proposals which can get funded to become a project.
 They're limited in the amount of funding they can receive,
-but it's still a good opportunity to get to work on something you came up with and try to make a difference.
+but it's still a good opportunity to get to work on something you came up with and try to do something new.
 The process is kept very simple to encourage innovation and lower the barrier for entry.
 Basically you require a poster-like page with details,
 and have to give a 15 minute pitch to a review board.
@@ -17,7 +17,16 @@ I gave my pitch yesterday, and just got funded today.
 
 It's not really my project, it was envisioned and created by others at my office.
 But I had the opportunity to present the proposal and went with it.
-Now it looks like I'll be able to work on the project for a couple of months.
+It was super nerve-wracking to have to do a presentation with all those people,
+but now that it's over it doesn't seem that bad.
+I might come up with future ideas and make more proposals.
+Since I was lucky enough to get funded, it looks like I'll be able to work on the project for a couple of months.
+From there, if the results are good and the customer is happy, I may be able to obtain further funding,
+and then who knows what might come out of it?
 
-The project is going to be in Python and Angular, so it will be something totally new for me.
+It's pretty exciting, and also scary -- 
+the project is going to be in Python and Angular, so it will be something totally new for me.
+It's a big departure from what I've been doing the past few years.
+But I figure if you're not scared every once in a while, you're probably not growing as much as you could be.
+
 I'll try to continue posting about things I learn.
