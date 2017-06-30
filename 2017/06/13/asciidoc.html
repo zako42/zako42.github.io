@@ -28,52 +28,97 @@
 
       <h1>Asciidoc</h1>
 <div class="sect1">
-<h2 id="cool_features_of_asciidoc_format">Cool features of asciidoc format</h2>
+<h2 id="just_a_few_features_of_asciidoc_format">Just a few features of asciidoc format</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>plain text, so we can use git, vim, other programming tools</p>
+<p>Everything is plain text, so we can use git, vim, other programming tools</p>
 </li>
 <li>
-<p>superset of markdown, so we have backwards compatibility</p>
+<p>Superset of markdown, so we have backwards compatibility</p>
 </li>
 <li>
-<p>auto table of contents</p>
+<p>Auto table of contents</p>
 </li>
 <li>
-<p>easy cross reference links, and section headings are all automatically linkable</p>
+<p>Easy cross reference links, and section headings like <a href="#Cool features of asciidoc format">[Cool features of asciidoc format]</a> are all automatically linkable</p>
 </li>
 <li>
 <p>documents can include other documents</p>
 <div class="ulist">
 <ul>
 <li>
-<p>can extract sections to DRY them up between documents</p>
+<p>this means we can extract partials to DRY them up between documents</p>
 </li>
 <li>
-<p>can adjust the indent level of sections within an included document. This means each document can stand on its own, as well as become a section in another.</p>
+<p>can adjust the indent level of sections within an included document.
+This means each document can stand on its own, as well as become a section in another.</p>
 </li>
 </ul>
 </div>
 </li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Tables are easy too</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Column 1 Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Column 2 Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Column 3 Name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data 3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">row 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">some other stuff</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">more stuff</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
 <li>
-<p>easy tables support</p>
+<p>includes font awesome and all its icons <span class="icon"><i class="fa fa-hand-spock-o"></i></span></p>
 </li>
 <li>
-<p>include font awesome and all its icons</p>
+<p>if you want to style something monospace for code or commands inline, you can do so <code>like this</code></p>
 </li>
 <li>
-<p>admonitions!</p>
+<p>or you can enter a block of stuff</p>
+<div class="literalblock">
+<div class="content">
+<pre>like
+this</pre>
+</div>
+</div>
 </li>
 <li>
 <p>block quote formatting is nice</p>
 </li>
+</ul>
+</div>
+<div class="quoteblock">
+<blockquote>
+block quote formatting is nice
+</blockquote>
+<div class="attribution">
+&#8212; me just a little while ago
+</div>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p>support for math equations like Latex</p>
-</li>
-<li>
-<p>support for text specified diagrams</p>
+<p>admonitions are awesome!</p>
 </li>
 </ul>
 </div>
@@ -84,7 +129,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-this is a note
+This is a note
 </td>
 </tr>
 </table>
@@ -96,8 +141,39 @@ this is a note
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-this is an important admonition
+This is important
 </td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>and of course, adding code blocks easily&#8201;&#8212;&#8201;with callouts</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Ruby example</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="ruby"><span class="keyword">class</span> <span class="class">Dog</span>
+  attr_reader <span class="symbol">:name</span> <i class="conum" data-value="1"></i><b>(1)</b>
+
+  <span class="keyword">def</span> <span class="function">initialize</span>(name)
+    <span class="instance-variable">@name</span> = name <i class="conum" data-value="2"></i><b>(2)</b>
+  <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>creates a getter method for the name instance variable</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>sets instance variable</td>
 </tr>
 </table>
 </div>
