@@ -6,16 +6,16 @@
 :page-layout: post
 :page-tags: asciidoc
 
-== Just a few features of asciidoc format
+== Just a few cool features of asciidoc
 
 * Everything is plain text, so we can use git, vim, other programming tools
 * Superset of markdown, so we have backwards compatibility
 * Auto table of contents
-* Easy cross reference links, and section headings like <<Cool features of asciidoc format>> are all automatically linkable
-* documents can include other documents
-** this means we can extract partials to DRY them up between documents
-** can adjust the indent level of sections within an included document.
-This means each document can stand on its own, as well as become a section in another.
+* Easy cross reference links, and section headings are all automatically linkable
+* Documents can include other documents
+  ** this means we can extract partials to DRY them up between documents
+  ** can adjust the indent level of sections within an included document.
+     This means each document can stand on its own, as well as become a section in another.
 
 .Tables are easy too
 |===
@@ -32,25 +32,25 @@ This means each document can stand on its own, as well as become a section in an
 
 |===
 
-* includes font awesome and all its icons icon:hand-spock-o[]
-* if you want to style something monospace for code or commands inline, you can do so `like this`
-* or you can enter a block of stuff
+* Includes font awesome and all its icons icon:hand-spock-o[]
+* If you want to style something monospace for code or commands inline, you can do so `like this`
+* Or you can enter a block of stuff
 
  like
  this
 
-* block quote formatting is nice
+* Block quote formatting is nice
 
 [quote, me just a little while ago]
-block quote formatting is nice
+Block quote formatting is nice
 
-* admonitions are awesome!
+* Admonitions are awesome!
 
 NOTE: This is a note
 
 IMPORTANT: This is important
 
-* and of course, adding code blocks easily -- with callouts
+* And of course, adding code blocks easily -- with callouts
 
 .Ruby example
 [source, ruby]
