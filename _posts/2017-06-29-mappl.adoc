@@ -1,0 +1,23 @@
+= I got funded
+:showtitle:
+:page-navtitle: I got funded
+:page-excerpt: I gave my pitch yesterday, and just got funded today
+:page-root: ../../../
+:page-layout: post
+:page-tags: innovation project python angular
+
+At work we have a mechanism for creating proposals which can get funded to become a project.
+They're limited in the amount of funding they can receive,
+but it's still a good opportunity to get to work on something you came up with and try to make a difference.
+The process is kept very simple to encourage innovation and lower the barrier for entry.
+Basically you require a poster-like page with details,
+and have to give a 15 minute pitch to a review board.
+The turnaround is very quick --
+I gave my pitch yesterday, and just got funded today.
+
+It's not really my project, it was envisioned and created by others at my office.
+But I had the opportunity to present the proposal and went with it.
+Now it looks like I'll be able to work on the project for a couple of months.
+
+The project is going to be in Python and Angular, so it will be something totally new for me.
+I'll try to continue posting about things I learn.
