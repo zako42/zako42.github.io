@@ -44,9 +44,8 @@ been playing with docker to familiarize myself with it. Additionally, running Op
 may add some extra protection, since attackers would need to break out of the container if they did
 manage to exploit a vulnerability in the OpenVPN software.
 
-The docker image I used had instructions on how to run it, and I also found this tutorial:
-
-link
+The docker image I used had instructions on how to run it, and I also found 
+https://github.com/kylemanna/docker-openvpn[this tutorial].
 
 I basically followed the instructions word for word and it went smoothly. The issues I ran into had
 nothing to do with the tutorial:
@@ -54,22 +53,23 @@ nothing to do with the tutorial:
 === Issue 1
 Needed dynamic DNS for my IP. This is so I could specify an address in the OpenVPN configuration (the
 IP I get from my ISP is dynamic and may change at any time). I didn't have any dynamic DNS earlier.
-I found duckdns and went with them over a list of others just because they're free and the name is funny.
+I found `duckdns` and went with them over a list of others just because they're free and the name is funny.
 
 === Issue 2
 My ISP provided modem (DSL) was running as a router with firewall which was blocking the ports I was
 trying to open on my own router. To get around this, I looked up the documentation on logging into
 the modem and setting it up as a dumb modem (called 'bridged mode' on my particular model). Once this
-was set, I was able to successfully hit my port forwarded machine with netcat
+was set, I was able to successfully hit my port forwarded machine with `netcat`
 
-nc -zvu my-registered-host.duckdns.org 1194
-(connected)
+ nc -zvu my-registered-host.duckdns.org 1194
+ (connected)
 
 === Issue 3
-As far as security goes, I'm not knowledgeable. I looked around for information, and found a few
-guides on how to configure your router to be more secure, as well as Steve Gibson's page (link). Steve's
-page has some tools which can check how secure your router is. I ran everything there and felt a bit
-safer once those were all good.
+As far as security goes, I'm not too knowledgeable. I looked around for information, and found a few
+guides on how to configure your router to be more secure,
+as well as https://www.grc.com/x/ne.dll?bh0bkyd2[Steve Gibson's Shields Up page]. 
+Steve's page has some tools which can check how secure your router is.
+I ran everything there and felt a bit safer once those were all good.
 
 === Issue 4
 To get the openvpn config file onto my iphone, I had to use iTunes to load the file onto the openvpn
@@ -79,16 +79,19 @@ client app file area.
 Once these things were all configured, I was able to test things out.
 
 * Check IP
+
 First, turned off home wifi (thus forcing my phone to use LTE). Googling "whats my ip" shows your
-public IP. From LTE, it showed up as a bunch of crazy hex numbers (IPV6?). When wifi is on, google
+public IP. From LTE, it showed up as a bunch of crazy alphanumerics (IPV6?). When wifi is on, google
 shows my IP as my home router's WAN IP.
 
 * Connect OpenVPN client
+
 Once connected, google shows my IP as my home router's WAN IP again. Remember,
 this is through LTE, connecting to my home network. Once this worked, it meant I was connected
 properly.
 
 * Connect to home network devices
+
 From here, I was able to hit my network devices like my NAS and security cameras. In the previous
 blog post, I wrote about dnsmasq and how I created nice hostnames for my network devices. Since my
 phone is connected to my home network when it's going through OpenVPN, I'm also connected to my
@@ -98,6 +101,7 @@ security cameras, I have the phone app to view the camera feeds from my phone. T
 fine, and the video quality wasn't that bad!
 
 * Test on the road
+
 Although these tests proved the VPN was working and I could get onto my home network with OpenVPN, there's
 nothing like a real test. When I went out for dinner, I opened up my OpenVPN client app and connected home.
 Everything went smoothly.
