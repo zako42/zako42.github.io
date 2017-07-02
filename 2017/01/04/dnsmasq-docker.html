@@ -197,21 +197,21 @@ If you edit the files, you will need to restart the docker container.</p>
 <div class="paragraph">
 <p>Here&#8217;s how I configured things:</p>
 </div>
-<div class="paragraph">
-<p>in <em>/etc/dnsmasq/1.home.conf:</em></p>
-</div>
-<div class="literalblock">
+<div class="listingblock">
+<div class="title">In /etc/dnsmasq/1.home.conf</div>
 <div class="content">
-<pre>address=/nas.home/192.168.0.254
-address=/another-machine.home/192.168.0.253
-... (add more local hostnames here)</pre>
+<pre> address=/nas.home/192.168.0.254
+ address=/another-machine.home/192.168.0.253
+ ... (add more local hostnames here)</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>One thing I also added was:</p>
 </div>
-<div class="paragraph">
-<p><code>docker update --restart=always dnsmasq</code></p>
+<div class="literalblock">
+<div class="content">
+<pre>docker update --restart=always dnsmasq</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>This just sets the container to restart, so when I restart the machine,
@@ -257,7 +257,7 @@ I TLDR&#8217;ed all that though and just avoided using <code>.dev</code> as well
 I can now hit my NAS and other custom local hostnames from all the devices on my home network
 (including iphones and ipad, and other devices which I wouldn&#8217;t normally be able to edit host files in).
 Not sure how much this will help me,
-but it is definitely nicer to be able to bookmark urls with names like wiki.home instead of
+but it is definitely nicer to be able to bookmark urls with names like 'wiki.home' instead of
 192.168.0.xyz.</p>
 </div>
 <div class="paragraph">
