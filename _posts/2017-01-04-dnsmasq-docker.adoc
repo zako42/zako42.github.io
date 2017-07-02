@@ -138,16 +138,16 @@ If you edit the files, you will need to restart the docker container.
 
 Here's how I configured things:
 
-in __/etc/dnsmasq/1.home.conf:__
-
-    address=/nas.home/192.168.0.254
-    address=/another-machine.home/192.168.0.253
-    ... (add more local hostnames here)
-
+.In /etc/dnsmasq/1.home.conf
+----
+ address=/nas.home/192.168.0.254
+ address=/another-machine.home/192.168.0.253
+ ... (add more local hostnames here)
+----
 
 One thing I also added was:
 
-`docker update --restart=always dnsmasq`
+ docker update --restart=always dnsmasq
 
 This just sets the container to restart, so when I restart the machine,
 it also restarts the dnsmasq container.
@@ -185,7 +185,7 @@ After all this,
 I can now hit my NAS and other custom local hostnames from all the devices on my home network 
 (including iphones and ipad, and other devices which I wouldn't normally be able to edit host files in).
 Not sure how much this will help me,
-but it is definitely nicer to be able to bookmark urls with names like wiki.home instead of 
+but it is definitely nicer to be able to bookmark urls with names like 'wiki.home' instead of 
 192.168.0.xyz.
 
 Later, I plan to set up openVPN so I can VPN to my home network from my phone or remote laptops, etc.
