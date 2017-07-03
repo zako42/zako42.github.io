@@ -1,0 +1,180 @@
+<!doctype html>
+<!--[if IE 9]>
+<html class="lt-ie10" lang="en"> <![endif]-->
+<html class="no-js" lang="en" data-useragent="Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logrotate and MySQL</title>
+  <meta name="description" content="github pages blog">
+  <meta name="author" content="Lance Nakamoto">
+  <meta name="copyright" content="Maybe consider a Creative Commons license">
+  <script src="https://use.fontawesome.com/975d74bd92.js"></script>
+  <link rel="stylesheet" href="../../../css/foundation.css">
+  <link rel="stylesheet" href="../../../css/coderay.css">
+  <link rel="stylesheet" href="../../../css/asciidoctor.css">
+  <link rel="stylesheet" href="../../../css/footer.css">
+  <script src="../../../js/vendor/modernizr.js"></script>
+  <script src="../../../js/toc.js"></script>
+</head>
+
+
+
+<body>
+  <!-- Post Content -->
+  <div class="row">
+    <div class="large-9 columns" role="content">
+
+      <h1>Logrotate and MySQL</h1>
+<div class="sect1">
+<h2 id="log_rotation">Log Rotation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>At work we use the community edition of MySQL 5.7.x. server (not the enterprise version).
+They take security pretty seriously at work, so we have to lock things down a lot manually.
+Without getting too much into all that,
+we have requirements that force us to keep the MySQL General log always turned on.
+This might be surprising or shocking to some, and yes we do take a performance hit,
+but hey that&#8217;s a requirement for us.
+As you may know, the general log captures <em>every query</em> performed by the database.
+In other words, <strong>it gets huge</strong>.
+Our application is not that large, not a lot of users (it&#8217;s an internal application)
+but our log grows by multiple GB per day.
+To avoid filling up <code>/var/log</code> or wherever the general log is configured to reside, the logs
+must be rotated and compressed.</p>
+</div>
+<div class="sect2">
+<h3 id="rhel6_logrotate">RHEL6 logrotate</h3>
+<div class="paragraph">
+<p>We use RHEL6 for our db server.
+The installation of MySQL 5.7 on RHEL provides a logrotate script which can perform
+the log rotation daily.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This is not the version of MySQL which is included in the default RPM repos.
+(For RHEL6, it uses MySQL 5.1&#8201;&#8212;&#8201;We wanted 5.7, so we installed the RPMs from Oracle&#8217;s website)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For RHEL6, you can put logrotate scripts in <code>/etc/logrotate.d/your-script</code>.
+Those scripts get called by logrotate in <code>cron.daily</code>.
+The logrotate script that came with the default installation was commented out.
+But even if you uncommented everything, it was only set to rotate the mysqld log, not the general log.
+To get the logrotate script to rotate the general log, I copied the config in <code>/etc/logrotate.d/mysqld</code>
+and created a new entry for 'mysql_general'.
+In there, I made sure to rotate daily, with compression to save disk space.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="troubleshooting_log_rotation">Troubleshooting log rotation</h3>
+<div class="paragraph">
+<p>If you run the logrotate command manually, it will perform the rotation on your logs,
+which may not be desirable.
+To perform a dry run which doesn&#8217;t actually make changes to files, you can use the debug mode</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>logrotate -d /etc/logrotate.conf</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>note that you can run an individual log rotation script instead of using the main one in <code>/etc/logrotate.conf</code>
+but since settings in individual scripts may be inheriting settings from there,
+I would suggest trying that first.</p>
+</div>
+<div class="paragraph">
+<p>Another thing you can look at is the logrotate status at <code>/var/lib/logrotate.status</code>.
+The last rotation date is kept in there for each log which logrotate knows about.
+This is what it uses to know whether it&#8217;s time to rotate a log.
+You can see this by doing a dry run with the <code>-d</code> flag as shown above.</p>
+</div>
+<div class="paragraph">
+<p>For example say you set a logrotation for daily. If you do a dry run,
+and the results show that a log does not need rotating,
+you can edit the datestamp in the logrotate status file to a couple of days ago.
+If you perform a dry run again, it <em>should</em> now show that the log needs to be rotated.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="selinux">SELinux</h3>
+<div class="paragraph">
+<p>When troubleshooting I found out what my problem was:
+I had configured my MySQL general log to reside in <code>/var/lib/mysql/</code>, and SELinux had policies
+which prevented logrotation and syslog from running in directories other than <code>/var/log</code>.
+I had configured the general log to be saved in <code>/var/lib/mysql</code> when I didn&#8217;t know any better,
+and not knowing where I should put the logs, I figured keeping them in the MySQL&#8217;s home directory
+would be safe.
+After moving the logs to <code>/var/log</code> they started getting rotated.</p>
+</div>
+</div>
+</div>
+</div>
+
+    </div>
+  </div>
+  <!-- Post Content -->
+
+  <footer class="row">
+  <div class="large-12 columns">
+    <hr>
+    <div class="row">
+
+      <div class="large-8 columns">
+        <p><a href="/">Pseudo Random</a></p>
+        <a href="about">about</a>
+      </div>
+
+      <div class="large-4 columns">
+        <p class="footer-heading">
+          <a href="mailto:zako42@gmail.com">zako42@gmail.com</a><br/>
+
+          
+            <a href="https://github.com/zako42">
+              <span class="icon icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+              <span class="username">zako42</span>
+            </a><br/>
+          
+
+          
+            <a href="https://twitter.com/gomizako">
+              <span class="icon icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+              <span class="username">gomizako</span>
+            </a>
+          
+
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+  <script src="../../../js/vendor/jquery.js"></script>
+<script src="../../../js/foundation.min.js"></script>
+<script>
+  $(document).foundation();
+  var doc = document.documentElement;
+  doc.setAttribute('data-useragent', navigator.userAgent);
+</script>
+
+</body>
+</html>
