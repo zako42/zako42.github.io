@@ -4,20 +4,23 @@
 :page-excerpt: It's exciting but also a bit scary
 :page-root: ../../../
 :page-layout: post
-:page-categories: 
+:page-tags: growth
 
 At work, I've been doing Ruby on Rails development on a legacy application for the past 4 years.
+I did get to work on a couple of other side projects, but it was all Rails related work.
+Upgrading legacy apps and stuff like that.
 Some of that 4 years was spent working on other stuff, like securing our servers.
 We have to accredit our systems, and that requires locking down security settings and stuff like that.
 Additionally, in the past few months we recently migrated all our servers from Windows Server 2008R2
 over to RHEL6.
 In the migration we also moved from MySQL 5.5 to 5.7, changed from JRuby (Windows) to Ruby,
-Tomcat with IIS over to Apache with Thin (will move to Unicorn later),
+Tomcat + IIS over to Apache + Thin (will move to Unicorn later),
 and a bunch of other things.
 In that move, I learned a lot about linux in general, which was cool.
 
 More recently however, it seems that I am at an inflection point.
-There are several opportunities at work which may or may not pan out, and if they do, I will be attached to them.
+There are several opportunities at work which may (or may not) pan out,
+and if they do, I will be attached to them.
 None of them are related to Ruby on Rails and most of them are not even web development related!
 
 It's exciting but also a bit scary.
@@ -33,5 +36,5 @@ I would be moving to a different office, and would experience lots of change
   ** Django and Angular
 * Different office people, culture, etc
 
-Since I'll be learning totally new things, I'll try to write about them here.
+Since I'll be learning totally new things, I'll try to write about them on this blog.
 

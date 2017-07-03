@@ -1,0 +1,68 @@
+= Logrotate and MySQL
+:showtitle:
+:page-navtitle: Logrotate and MySQL
+:page-excerpt: 
+:page-root: ../../../
+:page-layout: post
+:page-tags: mysql logs logrotate
+
+== Log Rotation
+At work we use the community edition of MySQL 5.7.x. server (not the enterprise version).
+They take security pretty seriously at work, so we have to lock things down a lot manually.
+Without getting too much into all that,
+we have requirements that force us to keep the MySQL General log always turned on.
+This might be surprising or shocking to some, and yes we do take a performance hit,
+but hey that's a requirement for us.
+As you may know, the general log captures _every query_ performed by the database.
+In other words, *it gets huge*.
+Our application is not that large, not a lot of users (it's an internal application)
+but our log grows by multiple GB per day.
+To avoid filling up `/var/log` or wherever the general log is configured to reside, the logs
+must be rotated and compressed.
+
+=== RHEL6 logrotate
+We use RHEL6 for our db server.
+The installation of MySQL 5.7 on RHEL provides a logrotate script which can perform
+the log rotation daily.
+
+NOTE: This is not the version of MySQL which is included in the default RPM repos.
+(For RHEL6, it uses MySQL 5.1 -- We wanted 5.7, so we installed the RPMs from Oracle's website)
+
+For RHEL6, you can put logrotate scripts in `/etc/logrotate.d/your-script`.
+Those scripts get called by logrotate in `cron.daily`.
+The logrotate script that came with the default installation was commented out.
+But even if you uncommented everything, it was only set to rotate the mysqld log, not the general log.
+To get the logrotate script to rotate the general log, I copied the config in `/etc/logrotate.d/mysqld`
+and created a new entry for 'mysql_general'.
+In there, I made sure to rotate daily, with compression to save disk space.
+
+=== Troubleshooting log rotation
+If you run the logrotate command manually, it will perform the rotation on your logs,
+which may not be desirable.
+To perform a dry run which doesn't actually make changes to files, you can use the debug mode
+
+  logrotate -d /etc/logrotate.conf
+
+note that you can run an individual log rotation script instead of using the main one in `/etc/logrotate.conf`
+but since settings in individual scripts may be inheriting settings from there,
+I would suggest trying that first.
+
+Another thing you can look at is the logrotate status at `/var/lib/logrotate.status`.
+The last rotation date is kept in there for each log which logrotate knows about.
+This is what it uses to know whether it's time to rotate a log.
+You can see this by doing a dry run with the `-d` flag as shown above.
+
+For example say you set a logrotation for daily. If you do a dry run,
+and the results show that a log does not need rotating,
+you can edit the datestamp in the logrotate status file to a couple of days ago.
+If you perform a dry run again, it _should_ now show that the log needs to be rotated.
+
+=== SELinux
+When troubleshooting I found out what my problem was:
+I had configured my MySQL general log to reside in `/var/lib/mysql/`, and SELinux had policies
+which prevented logrotation and syslog from running in directories other than `/var/log`.
+I had configured the general log to be saved in `/var/lib/mysql` when I didn't know any better,
+and not knowing where I should put the logs, I figured keeping them in the MySQL's home directory
+would be safe.
+After moving the logs to `/var/log` they started getting rotated.
+
