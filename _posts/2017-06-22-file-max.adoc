@@ -4,10 +4,11 @@
 :page-excerpt: There is a system wide setting and a user level setting which specifies various resources
 :page-root: ../../../
 :page-layout: post
-:page-categories: apache
+:page-tags: apache
 
 Apache ran into problems where the user was not able to connect to the site.
 In the ssl error log, there were errors complaining of "too many open files".
+
 Apparently, apache was opening a large amount of files due to a bunch of machine requests from
 an external application which we share data with.
 It looked like they were hitting an xml feed every couple of seconds,
@@ -16,7 +17,8 @@ server).
 
 The apache user was set to have a limit of 1024 max open files.
 To fix the problem, we upped that to 16384 and are monitoring to see what happens.
-The team that manages the external application will be contacted to control themselves a bit.
+The team that manages the external application will have to be contacted to inform them they
+need to cut themselves back a bit.
 
 == What we found out about setting the max files
 There is a system wide setting and a user level setting which specifies various resources that
@@ -25,22 +27,24 @@ The system wide setting looks like it can be read at
 
   /proc/sys/fs/file-max
 
-the value can be configured at
+the value can be configured:
 
-  /etc/sysctl.conf
-
+.in /etc/sysctl.conf
+----
   fs.file-max = 100000
+----
 
-There is another file where individual users can be configured more granularly at
-
-  /etc/security/limits.conf
-
+There is another file where individual users can be configured more granularly in `/etc/security/limits.conf`.
 Here, a user (or group) can set their max file limit by adding an entry
 
-  apache  soft  nofile  16384
-  apache  hard  nofile  32768
-
-`soft` and `hard` refer to soft and hard limits, and `nofile` represents number of files.
+.in /etc/security/limits.conf
+[source, bash]
+----
+  apache  soft  nofile  16384 # <1>
+  apache  hard  nofile  32768 # <2>
+----
+<1> sets soft limit number of files (nofile) to 16384
+<2> sets hard limit number of files to 32768
 
 To view your own limits (to view someone else, I guess you could use `su`)
 
@@ -51,4 +55,19 @@ To view a running process, get its pid by using `ps aux | grep name-of-process`.
 With the pid, you can (as root) view the process limits
 
   cat /proc/(pid)/limits
+
+== Max files for apache
+
+There are a bunch of articles that show up if you google 'apache too many open files'.
+Some of the articles take wild guesses at values to set.
+In our case we didn't want to go nuts,
+but we also didn't want to increase the value by such a small amount that the problem would
+just happen again the next day.
+We settled on 16384, and will monitor for any re-occurance of the problem.
+If it happens again we will probably double the value.
+So far, it's been a week and things have run without problems.
+
+This problem could also presumably manifest itself in a DoS type of attack.
+If we find any good methodology for setting these numbers, I'll try and remember to revisit
+this post.
 
