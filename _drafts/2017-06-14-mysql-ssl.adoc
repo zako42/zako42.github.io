@@ -6,13 +6,14 @@
 :page-layout: post
 :page-categories: mysql ssl rails
 
-Haven't found a ton of articles showing how to configure a Rails app to connect to MySQL using SSL.
+I haven't found a ton of articles showing how to configure a Rails app to connect to MySQL using SSL.
+We have configured this at work, I'm documenting some info for future reference.
 
 [NOTE]
 .SSL vs TLS
 ====
-MySQL can use various versions of transport security such as TLSv1, TLSv1.1, etc. as well as 
-different cipher types.
+MySQL can use various versions of transport security such as TLSv1, TLSv1.1, etc.
+as well as different cipher types.
 SSL is considered insecure, and connection testing to the db showed it was using TLS.
 However the entire discussion below refers to encrypted connections using the blanket term "SSL"
 because the MySQL syntax refers to everything as SSL.
@@ -41,20 +42,19 @@ Also verifies that the account certificate contains specific info, such as email
 |===
 
 [IMPORTANT]
-.User PKI authentication
-====
-PKI authentication in MySQL requires certificate files and cannot currently handle reading
-certificates from hardware token.
+.MySQL Client authentication for users
+----
+Certificate authentication in MySQL requires certificate (pem) files.
 This is more geared towards using certificates for applications to connect to MySQL.
 For a user to connect (with say certificates on a smart card) your best bet would be to get
-PAM authentication working.
-If using self-signed certs, you could generate certificates for users, and let them manage their
-certificates, etc.
-====
+PAM authentication working (if you get this working, let me know how you did it!).
+Otherwise, you'd have to figure out a way to organize and manage users' certificates, private keys,
+etc. (PKI)
+----
 
-Since the webserver connects to MySQL using SSL with PKI certificates,
-its account is not needed to use password and password expiration 
-(defers to certificate expiration instead).
+Since the webserver will connect to MySQL using SSL with certificates,
+it's up to you whether you want the accounts to continue to require password and password expiration.
+You could just defer to the certificate expiration instead.
 
 ==== SSL Configuration and Procedures
 
