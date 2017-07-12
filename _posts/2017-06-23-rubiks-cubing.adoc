@@ -1,13 +1,14 @@
-= Rubik's Cubing
+= Rubiks Cubing
 :showtitle:
-:page-navtitle: Rubik's Cubing
+:page-navtitle: Rubiks Cubing
 :page-excerpt: 
 :page-root: ../../../
 :page-layout: post
-:page-categories: rubiks-cube speed-cubing
+:page-tags: rubiks-cube speed-cubing
 
-I purchased a rubiks cube _speed cube_ from Amazon for my brother and one of my friends for this
+I purchased rubiks cubes from Amazon for my brother and one of my friends for this
 past Christmas.
+They weren't official Rubik's brand cubes, they were stickerless because I figured they'd last longer.
 Since they were cheap, I figured I'd buy one for myself as well.
 I'd seen people at work playing with them and discussing 'algorithms' for solving.
 This was always interesting to me, but I guess I never tried playing with one until I bought those
@@ -15,7 +16,7 @@ cubes for Christmas.
 
 After they arrived, I found a few websites explaining the basic algorithm and slowly memorized it.
 It took a few weeks on and off playing with it for a few minutes a day, so it's not that bad at all
-(and if you dedicated more time to it it would take much less time than that).
+(and if you dedicated more time to it, much less time would be needed).
 However, after my friend came over one day, that changed everything.
 
 He showed me that he had learned the basic algorithm as well, but found out about some shortcuts
@@ -65,11 +66,12 @@ I'll usually grab 2 or 3 algorithms to learn at a time.
 Any algorithms I'm trying to learn, I draw them in, and write notes in there:
 
 * Name (I make up pet names for the algorithms to remember them by)
+  ** examples) up fish OLL, down fish OLL, bow tie OLL, git merge PLL, 7 PLL
 * Drawing of cube configuration for pattern recognition
 * Arrows showing where pieces will move
 * The algorithm itself
   ** I write the algorithm grouped into smaller sets of movements to make it easier to memorize
-* Notes to myself
+* Notes to myself for pattern recognition, etc.
 
 NOTE: When choosing a few algorithms, it can make a difference which ones you choose!
 Some algorithms are the inverse of others.
@@ -83,24 +85,31 @@ This way you learn 2 algorithms simultaneously, and you can get some pattern rec
 I call these 'Katas'.
 
 I try to practice for a few minutes each day.
-Usually at work I'll at least time myself 3 times during lunch.
-I could probably practice more, but I've been pretty busy lately.
-Regardless, I think practicing a few minutes per day is better than practicing for say an hour one
-day per week or 8 hours once a month, etc.
+Usually at work I'll time myself at least 3 times during lunch.
+Other times when there's a good pause, like running a full test suite, running rake tasks, etc.
+I can usually get a couple of practice runs in here and there.
+I think it's important to practice with a timer -- timing myself forces me to perform
+algorithms under a little bit of pressure.
+This helps me learn them because when I mess up, it becomes clear which things give me problems.
+I like to use the rubiks timer page on ruwix.com.
 
 TIP: I bought a GANS 356 Air cube, which is not as noisy as some other cubes.
 Since I use this at work and don't want to disturb others around me, this lets me practice at lunch
 without worrying about the noise as much.
 
 === Other techniques
-When trying to shave seconds off my time, I realized I was taking too long on the white cross and
-F2L.
+When trying to shave seconds off my time,
+I realized I was taking too long on the white cross and F2L.
 Googling these, you can find advanced techniques specifically used to speed these up as well.
 
 For example, performing a relative white cross saves a lot of wasted movement.
+I had read that setting up the white cross should only take about 6-8 moves.
+At the time, I was trying to line up the white edges in order, and started counting moves.
+I was using something like 15-20 and couldn't figure out how people were shaving it down to 6-8.
+After reading about relative white cross, it made perfect sense.
 
 Trying to speed up F2L is what ultimately started teaching me intuition.
 I think learning how to move pieces around without messing up others is what did it.
-I could probably try learning some of those other methods I tried earlier which use block building,
-etc but since I might just end up confusing myself, I plan to avoid those for now until I at least
-get to 1 look PLL.
+I could probably try to start learning some of those other methods I tried earlier which use block building,
+but I plan to avoid those for now until I at least get to 1 look PLL.
+

@@ -4,7 +4,7 @@
 :page-excerpt: 
 :page-root: ../../../
 :page-layout: post
-:page-categories: mysql ssl rails
+:page-tags: mysql ssl rails
 
 I haven't found a ton of articles showing how to configure a Rails app to connect to MySQL using SSL.
 We have configured this at work, I'm documenting some info for future reference.
