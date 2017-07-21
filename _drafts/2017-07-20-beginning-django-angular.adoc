@@ -1,0 +1,9 @@
+= Title
+:showtitle:
+:page-navtitle: Title
+:page-excerpt: 
+:page-root: ../../../
+:page-layout: post
+:page-tags: tag1 tag2
+
+

@@ -1,0 +1,23 @@
+= Virtualbox 64 bit OS not showing up
+:showtitle:
+:page-navtitle: Virtualbox 64 bit OS not showing up
+:page-excerpt: 
+:page-root: ../../../
+:page-layout: post
+:page-tags: virtualbox
+
+I was installing an Ubuntu 16.04 VM in virtualbox in Windows the other day.
+When trying to create a new VM, there is a drop down box which allows you to select the guest
+OS you will use.
+I had the 64 bit iso for 16.04, but it didn't show up as a selectable option.
+After looking this up, I found there were three requirements for 64 bit guest OSs:
+
+. Host OS must be 64 bit (which it was)
+. For Windows, Control Panel > Windows Features > Hyper-V must be disabled,
+  as it interferes with the Virtualbox hypervisor for some reason
+. Intel Virtualization and VT-d must be enabled in the BIOS
+
+In my case the third requirement was not met.
+The settings were turned off for some reason in my work laptop.
+After turning them on, Virtualbox was happy and 64 bit OSs showed up in the menu.
+

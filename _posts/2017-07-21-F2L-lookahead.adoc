@@ -1,0 +1,52 @@
+= Beginning F2L Lookahead
+:showtitle:
+:page-navtitle: Beginning F2L lookahead
+:page-excerpt: 
+:page-root: ../../../
+:page-layout: post
+:page-tags: rubiks f2l
+
+I'm almost done learning all the PLLs (just a few more to go!)
+I decided the next thing I should focus on is improving F2L times.
+
+== F2L Improvement
+Not sure yet what I will start with. For now I will concentrate on finishing up the PLLs
+and practicing those for a while, just to make sure they've become ingrained.
+I still mess up and forget things every so often, so I definitely need more practice.
+Looking ahead (heheh) to possible areas for F2L improvement, I'm thinking of 3 things
+
+=== Lookahead
+My coworker Chris is currently trying to work on his lookahead.
+I hadn't really thought about that, but when I looked it up, there are tons of people
+saying that it's one of the main things that helps improve times.
+Apparently people use metronomes to start off slow so they can learn to lookahead,
+and gradually speed up.
+
+This reminds me of a quote I heard:
+
+"Slow is smooth, smooth is fast"
+-- Navy SEALs
+
+Meaning that to go fast, first you need to be smooth.
+And to go smoothly, you need to go slow.
+Makes sense, and for this type of application, it sounds like a very appealing idea
+(although I hate metronomes).
+
+=== F2L algorithms
+Up until now, I've only focused on intuition and have not learned any algorithms for F2L.
+I looked through a couple of websites, and they just didn't appeal to me.
+However, I did learn today about rotating (hiding) edge pieces into slots,
+and moving corners over to build pairs.
+Earlier, I was only focused on hiding corners and moving the edges around.
+Just never thought about it, but yeah it's faster in those cases where it can be used.
+So I might focus on learning at least a few F2L algs.
+
+=== Non cube rotation
+Another idea which we talked about was learning to insert pairs in all 4 slots without
+cube rotations.
+This is probably going to be hard, since I'm weak with left hand moves.
+But I guess the point is to work on weaknesses to improve.
+
+
+My thinking is the hardest will be lookahead, so I will probably start with that.
+When it gets too hard, maybe take a break and look at the other two.
